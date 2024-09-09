@@ -18,7 +18,7 @@ public class SugestaoEntity {
 
     private String descricao;
 
-    private LocalDateTime dataEnvio;
+    private LocalDateTime dataEnvio = LocalDateTime.now();
 
     private LocalDateTime dataAtualizacao;
 }
