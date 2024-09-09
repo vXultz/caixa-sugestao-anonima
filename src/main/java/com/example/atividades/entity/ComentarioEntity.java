@@ -16,9 +16,9 @@ public class ComentarioEntity {
 
     @ManyToOne
     @JoinColumn(name = "sugestao_id")
-    private SugestaoEntity sugestaoId;
+    private SugestaoEntity sugestao;
 
     private String texto;
 
-    private LocalDateTime dataEnvio;
+    private LocalDateTime dataEnvio = LocalDateTime.now();
 }

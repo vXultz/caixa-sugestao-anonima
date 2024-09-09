@@ -1,8 +1,10 @@
 package com.example.atividades.controller;
 
 import com.example.atividades.controller.dto.request.AtualizarSugestaoRequest;
+import com.example.atividades.controller.dto.request.InserirComentarioRequest;
 import com.example.atividades.controller.dto.request.InserirSugestaoRequest;
 import com.example.atividades.controller.dto.response.SugestaoResponse;
+import com.example.atividades.controller.dto.response.SugestaoResponseComComentarios;
 import com.example.atividades.service.SugestaoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,6 +30,16 @@ public class SugestaoController {
         }
     }
 
+    @PostMapping("/{id}/comentarios")
+    public ResponseEntity<?> adicionarComentario(@PathVariable long id, @RequestBody InserirComentarioRequest req) {
+        try {
+            SugestaoResponseComComentarios sugestaoResponse = service.adicionarComentario(id, req);
+            return new ResponseEntity<>(sugestaoResponse, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @GetMapping
     public ResponseEntity<List<SugestaoResponse>> consultarSugestoes(
             @RequestParam(required = false) String titulo) {
@@ -38,7 +50,7 @@ public class SugestaoController {
     @GetMapping("/{id}")
     public ResponseEntity<?> consultarSugestaoPorId(@PathVariable long id) {
         try {
-            SugestaoResponse sugestaoResponse = service.consultarPorId(id);
+            SugestaoResponseComComentarios sugestaoResponse = service.consultarPorId(id);
             return new ResponseEntity<>(sugestaoResponse, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);

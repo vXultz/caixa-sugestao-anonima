@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -21,4 +22,7 @@ public class SugestaoEntity {
     private LocalDateTime dataEnvio = LocalDateTime.now();
 
     private LocalDateTime dataAtualizacao;
+
+    @OneToMany(mappedBy = "sugestao", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ComentarioEntity> comentarios;
 }
