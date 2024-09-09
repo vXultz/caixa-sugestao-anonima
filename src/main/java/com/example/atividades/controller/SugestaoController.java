@@ -1,15 +1,15 @@
 package com.example.atividades.controller;
 
+import com.example.atividades.controller.dto.request.AtualizarSugestaoRequest;
 import com.example.atividades.controller.dto.request.InserirSugestaoRequest;
 import com.example.atividades.controller.dto.response.SugestaoResponse;
 import com.example.atividades.service.SugestaoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -27,4 +27,22 @@ public class SugestaoController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping
+    public ResponseEntity<List<SugestaoResponse>> consultarSugestoes(
+            @RequestParam(required = false) String titulo) {
+        List<SugestaoResponse> sugestoes = service.consultarSugestoes(titulo);
+        return ResponseEntity.ok(sugestoes);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> atualizarSugestao(@PathVariable long id, @RequestBody AtualizarSugestaoRequest atualizarSugestaoRequest) {
+        try {
+            SugestaoResponse atualizarSugestaoResponse = service.atualizar(id, atualizarSugestaoRequest);
+            return new ResponseEntity<>(atualizarSugestaoResponse, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }
