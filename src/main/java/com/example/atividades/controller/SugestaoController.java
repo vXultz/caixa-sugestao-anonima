@@ -35,6 +35,16 @@ public class SugestaoController {
         return ResponseEntity.ok(sugestoes);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> consultarSugestaoPorId(@PathVariable long id) {
+        try {
+            SugestaoResponse sugestaoResponse = service.consultarPorId(id);
+            return new ResponseEntity<>(sugestaoResponse, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<?> atualizarSugestao(@PathVariable long id, @RequestBody AtualizarSugestaoRequest atualizarSugestaoRequest) {
         try {

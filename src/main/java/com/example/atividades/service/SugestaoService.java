@@ -60,6 +60,17 @@ public class SugestaoService {
                 .collect(Collectors.toList());
     }
 
+    public SugestaoResponse consultarPorId(long id) {
+        SugestaoEntity sugestao = repository.findById(id).orElseThrow(() -> new RuntimeException("Sugestão não encontrada"));
+        return new SugestaoResponse(
+                sugestao.getId(),
+                sugestao.getTitulo(),
+                sugestao.getDescricao(),
+                sugestao.getDataEnvio(),
+                sugestao.getDataAtualizacao()
+        );
+    }
+
     public SugestaoResponse atualizar(long id, AtualizarSugestaoRequest req) {
         SugestaoEntity sugestao = repository.findById(id).orElseThrow(() -> new RuntimeException("Sugestão não encontrada"));
         sugestao.setTitulo(req.titulo());
